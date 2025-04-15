@@ -6,6 +6,9 @@ function Item({ name, category }) {
   function handleAddToCartClick() {
     setIsInCart((isInCart) => !isInCart);
   }
+  const itemsToDisplay = items.filter((item) =>
+    item.name.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <li className={isInCart ? "in-cart" : ""}>

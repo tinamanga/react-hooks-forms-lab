@@ -15,7 +15,7 @@ test("calls the onItemFormSubmit callback prop when the form is submitted", () =
     target: { value: "Dessert" },
   });
 
-  fireEvent.submit(screen.queryByText(/Add to List/));
+  fireEvent.submit(screen.getByText(/Add Item/i).closest ("form"));
 
   expect(onItemFormSubmit).toHaveBeenCalledWith(
     expect.objectContaining({
@@ -31,7 +31,7 @@ test("adds a new item to the list when the form is submitted", () => {
 
   const dessertCount = screen.queryAllByText(/Dessert/).length;
 
-  fireEvent.change(screen.queryByLabelText(/Name/), {
+  fireEvent.change(screen.getByLabelText(/Name/i), {
     target: { value: "Ice Cream" },
   });
 
@@ -39,7 +39,7 @@ test("adds a new item to the list when the form is submitted", () => {
     target: { value: "Dessert" },
   });
 
-  fireEvent.submit(screen.queryByText(/Add to List/));
+  fireEvent.submit(screen.getByText(/Add Item/i).closest("form"));
 
   expect(screen.queryByText(/Ice Cream/)).toBeInTheDocument();
 

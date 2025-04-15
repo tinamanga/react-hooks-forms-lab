@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Filter from "../components/Filter";
 import ShoppingList from "../components/ShoppingList";
+import App from "../components/App";
 
 const testData = [
   { id: 1, name: "Yogurt", category: "Dairy" },
@@ -16,6 +17,10 @@ const testData = [
 const noop = () => {};
 test("uses a prop of 'search' to display the search term in the input field", () => {
   render(<Filter search="testing" onSearchChange={noop} />);
+
+  fireEvent.change(screen.getByPlaceholderText(/Search/), {
+    target: { value: "new text" },
+  });
 
   expect(screen.queryByPlaceholderText(/Search/).value).toBe("testing");
 });
@@ -32,13 +37,13 @@ test("calls the onSearchChange callback prop when the input is changed", () => {
 });
 
 test("the input field acts as a controlled input", () => {
-  render(<ShoppingList items={testData} />);
+  render(< App />);
 
   fireEvent.change(screen.queryByPlaceholderText(/Search/), {
     target: { value: "testing 123" },
   });
 
-  expect(screen.queryByPlaceholderText(/Search/).value).toBe("testing 123");
+  expect(screen.queryByPlaceholderText(/Search/i).value).toBe("testing 123");
 });
 
 // Shopping List
@@ -50,9 +55,9 @@ test("the shopping list displays all items when initially rendered", () => {
 });
 
 test("the shopping filters based on the search term to include full matches", () => {
-  render(<ShoppingList items={testData} />);
+  render(< App />);
 
-  fireEvent.change(screen.queryByPlaceholderText(/Search/), {
+  fireEvent.change(screen.queryByPlaceholderText(/Search/i), {
     target: { value: "Yogurt" },
   });
 
@@ -68,9 +73,9 @@ test("the shopping filters based on the search term to include full matches", ()
 });
 
 test("the shopping filters based on the search term to include partial matches", () => {
-  render(<ShoppingList items={testData} />);
+  render(<App />);
 
-  fireEvent.change(screen.queryByPlaceholderText(/Search/), {
+  fireEvent.change(screen.queryByPlaceholderText(/Search/i), {
     target: { value: "Cheese" },
   });
 
